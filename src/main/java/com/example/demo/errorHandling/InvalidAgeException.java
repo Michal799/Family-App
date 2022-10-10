@@ -1,4 +1,4 @@
-package com.example.demo.errorhandling;
+package com.example.demo.errorHandling;
 
 public class InvalidAgeException extends RuntimeException{
 

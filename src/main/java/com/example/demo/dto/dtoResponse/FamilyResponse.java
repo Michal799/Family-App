@@ -1,11 +1,11 @@
-package com.example.demo;
+package com.example.demo.dto.dtoResponse;
 
-import com.example.demo.dto.dtoentities.FamilyMember;
+import com.example.demo.dto.dtoEntities.FamilyMember;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class FamilyWithMembers {
+public class FamilyResponse {
     private String familyName;
     private int nrOfAdults;
     private int nrOfChildren;

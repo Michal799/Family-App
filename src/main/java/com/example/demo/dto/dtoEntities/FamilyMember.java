@@ -1,4 +1,4 @@
-package com.example.demo.dto.dtoentities;
+package com.example.demo.dto.dtoEntities;
 
 import javax.persistence.*;
 

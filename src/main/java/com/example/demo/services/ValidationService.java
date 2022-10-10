@@ -1,9 +1,9 @@
 package com.example.demo.services;
 
-import com.example.demo.dto.requestdto.FamilyMemberRequest;
-import com.example.demo.errorhandling.InvalidAgeException;
-import com.example.demo.errorhandling.InvalidNrOfInfantsException;
-import com.example.demo.errorhandling.InvalidNrOfMembersException;
+import com.example.demo.dto.dtoRequest.FamilyMemberRequest;
+import com.example.demo.errorHandling.InvalidAgeException;
+import com.example.demo.errorHandling.InvalidNrOfInfantsException;
+import com.example.demo.errorHandling.InvalidNrOfMembersException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

@@ -1,9 +1,8 @@
 package com.example.demo;
 
-import com.example.demo.dto.dtoentities.Family;
-import com.example.demo.dto.FamilyRepository;
-import com.example.demo.dto.dtoresponse.FamilyResponse;
-import com.example.demo.dto.requestdto.FamilyRequest;
+import com.example.demo.dto.dtoRepositories.FamilyRepository;
+import com.example.demo.dto.dtoRequest.FamilyRequest;
+import com.example.demo.dto.dtoResponse.FamilyResponse;
 import com.example.demo.services.FamilyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,7 +23,7 @@ public class FamilyController {
     private FamilyService familyService;
 
     @GetMapping("/getFamily/{id}")
-    public ResponseEntity<FamilyWithMembers> Family(@RequestBody @PathVariable @Valid int id ) {
+    public ResponseEntity<FamilyResponse> Family(@RequestBody @PathVariable @Valid int id ) {
         return ResponseEntity.ok(familyService.getFamily(id));
     }
 

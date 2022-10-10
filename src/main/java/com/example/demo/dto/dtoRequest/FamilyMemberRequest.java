@@ -1,4 +1,4 @@
-package com.example.demo.dto.requestdto;
+package com.example.demo.dto.dtoRequest;
 
 public class FamilyMemberRequest {
 

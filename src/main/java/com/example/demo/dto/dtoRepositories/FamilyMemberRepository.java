@@ -1,6 +1,6 @@
-package com.example.demo.dto;
+package com.example.demo.dto.dtoRepositories;
 
-import com.example.demo.dto.dtoentities.FamilyMember;
+import com.example.demo.dto.dtoEntities.FamilyMember;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;

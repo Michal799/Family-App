@@ -1,13 +1,12 @@
 package com.example.demo.services;
 
-import com.example.demo.dto.dtoresponse.FamilyResponse;
-import com.example.demo.dto.requestdto.FamilyRequest;
-import com.example.demo.FamilyWithMembers;
-import com.example.demo.dto.dtoentities.Family;
-import com.example.demo.dto.dtoentities.FamilyMember;
-import com.example.demo.dto.FamilyMemberRepository;
-import com.example.demo.dto.FamilyRepository;
-import com.example.demo.errorhandling.FamilyNotFoundException;
+import com.example.demo.dto.dtoRequest.FamilyRequest;
+import com.example.demo.dto.dtoResponse.FamilyResponse;
+import com.example.demo.dto.dtoEntities.Family;
+import com.example.demo.dto.dtoEntities.FamilyMember;
+import com.example.demo.dto.dtoRepositories.FamilyMemberRepository;
+import com.example.demo.dto.dtoRepositories.FamilyRepository;
+import com.example.demo.errorHandling.FamilyNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,16 +31,16 @@ public class FamilyService {
         return createdFamilyId;
     }
 
-    public FamilyWithMembers getFamily(int id) {
+    public FamilyResponse getFamily(int id) {
         Family family = familyRepository.findById(id).orElseThrow(() -> new FamilyNotFoundException("Family not found"));
         List<FamilyMember> familyMembers = familyMemberRepository.findByFamilyId(id);
-        FamilyWithMembers familyWithMembers = new FamilyWithMembers();
-        familyWithMembers.setFamilyName(family.getFamilyName());
-        familyWithMembers.setNrOfAdults(family.getNrOfAdults());
-        familyWithMembers.setNrOfInfants(family.getNrOfInfants());
-        familyWithMembers.setNrOfChildren(family.getNrOfChildren());
-        familyWithMembers.setFamilyMember(familyMembers);
-        return familyWithMembers;
+        FamilyResponse familyResponse = new FamilyResponse();
+        familyResponse.setFamilyName(family.getFamilyName());
+        familyResponse.setNrOfAdults(family.getNrOfAdults());
+        familyResponse.setNrOfInfants(family.getNrOfInfants());
+        familyResponse.setNrOfChildren(family.getNrOfChildren());
+        familyResponse.setFamilyMember(familyMembers);
+        return familyResponse;
     }
 
 
