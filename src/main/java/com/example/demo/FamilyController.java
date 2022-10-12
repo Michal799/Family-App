@@ -23,7 +23,7 @@ public class FamilyController {
     private FamilyService familyService;
 
     @GetMapping("/getFamily/{id}")
-    public ResponseEntity<FamilyResponse> Family(@RequestBody @PathVariable @Valid int id ) {
+    public ResponseEntity<FamilyResponse> get(@RequestBody @PathVariable @Valid int id ) {
         return ResponseEntity.ok(familyService.getFamily(id));
     }
 

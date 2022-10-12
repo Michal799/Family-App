@@ -1,5 +1,6 @@
 package com.example.demo.services;
 
+import com.example.demo.dto.dtoRequest.FamilyMemberRequest;
 import com.example.demo.dto.dtoRequest.FamilyRequest;
 import com.example.demo.dto.dtoResponse.FamilyResponse;
 import com.example.demo.dto.dtoEntities.Family;
@@ -11,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
+import static com.example.demo.errorHandling.ErrorMessages.messageNoFamily;
 
 @Service
 public class FamilyService {
@@ -32,7 +35,7 @@ public class FamilyService {
     }
 
     public FamilyResponse getFamily(int id) {
-        Family family = familyRepository.findById(id).orElseThrow(() -> new FamilyNotFoundException("Family not found"));
+        Family family = familyRepository.findById(id).orElseThrow(() -> new FamilyNotFoundException(messageNoFamily));
         List<FamilyMember> familyMembers = familyMemberRepository.findByFamilyId(id);
         FamilyResponse familyResponse = new FamilyResponse();
         familyResponse.setFamilyName(family.getFamilyName());
@@ -58,11 +61,7 @@ public class FamilyService {
 
     private void prepareFamilyMemberData(FamilyRequest familyRequest, Integer createdFamilyId ) {
         familyRequest.getFamilyMemberRequest().forEach(member -> {
-            validationService.validateNrOfMembers(familyRequest.getNrOfInfants(), familyRequest.getNrOfChildren(), familyRequest.getNrOfAdults());
-            validationService.validateNrOfInfants(familyRequest.getNrOfInfants(), familyRequest.getFamilyMemberRequest());
-            validationService.validateNrOfChildren(familyRequest.getNrOfChildren(), familyRequest.getFamilyMemberRequest());
-            validationService.validateNrOfAdults(familyRequest.getNrOfAdults(), familyRequest.getFamilyMemberRequest());
-            validationService.validateAge(member.getAge());
+            validateFamilyData(familyRequest, member);
             FamilyMember familyMember = new FamilyMember();
             familyMember.setFamilyName(member.getFamilyName());
             familyMember.setGivenName(member.getGivenName());
@@ -70,5 +69,13 @@ public class FamilyService {
             familyMember.setFamilyId(createdFamilyId);
             familyMemberRepository.save(familyMember);
             });
+    }
+
+    private void validateFamilyData(FamilyRequest familyRequest, FamilyMemberRequest member) {
+        validationService.validateNrOfMembers(familyRequest.getNrOfInfants(), familyRequest.getNrOfChildren(), familyRequest.getNrOfAdults());
+        validationService.validateNrOfInfants(familyRequest.getNrOfInfants(), familyRequest.getFamilyMemberRequest());
+        validationService.validateNrOfChildren(familyRequest.getNrOfChildren(), familyRequest.getFamilyMemberRequest());
+        validationService.validateNrOfAdults(familyRequest.getNrOfAdults(), familyRequest.getFamilyMemberRequest());
+        validationService.validateAge(member.getAge());
     }
 }
