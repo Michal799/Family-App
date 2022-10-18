@@ -5,13 +5,12 @@ import com.example.demo.dto.dtoRequest.FamilyRequest;
 import com.example.demo.dto.dtoResponse.FamilyResponse;
 import com.example.demo.dto.dtoEntities.Family;
 import com.example.demo.dto.dtoEntities.FamilyMember;
-import com.example.demo.dto.dtoRepositories.FamilyMemberRepository;
 import com.example.demo.dto.dtoRepositories.FamilyRepository;
 import com.example.demo.errorHandling.FamilyNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.Arrays;
 
 import static com.example.demo.errorHandling.ErrorMessages.messageNoFamily;
 
@@ -21,13 +20,14 @@ public class FamilyService {
     @Autowired
     private FamilyRepository familyRepository;
 
-    @Autowired
-    private FamilyMemberRepository familyMemberRepository;
 
     @Autowired
     private ValidationService validationService;
 
-    public Integer create(FamilyRequest familyRequest) {
+    @Autowired
+    private ConnectionService connectionService;
+
+    public Integer createFamily(FamilyRequest familyRequest) {
         Family family = prepareFamilyData(familyRequest);
         Integer createdFamilyId = familyRepository.save(family).getId();
         prepareFamilyMemberData(familyRequest,createdFamilyId);
@@ -36,13 +36,13 @@ public class FamilyService {
 
     public FamilyResponse getFamily(int id) {
         Family family = familyRepository.findById(id).orElseThrow(() -> new FamilyNotFoundException(messageNoFamily));
-        List<FamilyMember> familyMembers = familyMemberRepository.findByFamilyId(id);
+        searchFamilyMember(id);
         FamilyResponse familyResponse = new FamilyResponse();
         familyResponse.setFamilyName(family.getFamilyName());
         familyResponse.setNrOfAdults(family.getNrOfAdults());
         familyResponse.setNrOfInfants(family.getNrOfInfants());
         familyResponse.setNrOfChildren(family.getNrOfChildren());
-        familyResponse.setFamilyMember(familyMembers);
+        familyResponse.setFamilyMember(Arrays.asList(searchFamilyMember(id)));
         return familyResponse;
     }
 
@@ -67,7 +67,7 @@ public class FamilyService {
             familyMember.setGivenName(member.getGivenName());
             familyMember.setAge(member.getAge());
             familyMember.setFamilyId(createdFamilyId);
-            familyMemberRepository.save(familyMember);
+            connectionService.sendFamilyMember(familyMember);
             });
     }
 
@@ -77,5 +77,10 @@ public class FamilyService {
         validationService.validateNrOfChildren(familyRequest.getNrOfChildren(), familyRequest.getFamilyMemberRequest());
         validationService.validateNrOfAdults(familyRequest.getNrOfAdults(), familyRequest.getFamilyMemberRequest());
         validationService.validateAge(member.getAge());
+    }
+
+
+    private FamilyMember[] searchFamilyMember(int id) {
+        return connectionService.receiveFamilyMember(id);
     }
 }

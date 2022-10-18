@@ -1,15 +1,7 @@
 package com.example.demo.dto.dtoEntities;
 
-import javax.persistence.*;
-
-@Entity
 public class FamilyMember {
 
-        @Id
-        @GeneratedValue(strategy = GenerationType.IDENTITY)
-        private int id;
-
-        @Column(nullable = false)
         private String familyName;
         private String givenName;
         private int familyId;
@@ -35,13 +27,7 @@ public class FamilyMember {
                 return familyId;
         }
 
-        public void setFamilyId(int familyId) {
-                this.familyId = familyId;
-        }
-
-        public int getId() {
-                return id;
-        }
+        public void setFamilyId(int familyId) { this.familyId = familyId; }
 
         public int getAge() {
                 return age;

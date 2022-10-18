@@ -29,6 +29,6 @@ public class FamilyController {
 
     @PostMapping("/createFamily")
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<Integer> create(@Valid @RequestBody FamilyRequest family) {return ResponseEntity.ok(familyService.create(family)); }
+    public ResponseEntity<Integer> create(@Valid @RequestBody FamilyRequest family) {return ResponseEntity.ok(familyService.createFamily(family)); }
 
 }
